@@ -1,0 +1,55 @@
+const int buttonPin = 2;     // the number of the pushbutton pin
+const int rled = 13;      // the number of the LED pin
+const int gled = 7;
+const int bled = 12;
+int buttonState = 0;// variable for reading the pushbutton status
+volatile int ledstate=0;
+void setup() {
+   // initialize the LED pin as an output:
+   pinMode(gled, OUTPUT);
+   pinMode(rled,OUTPUT);
+   pinMode(bled,OUTPUT);
+   // initialize the pushbutton pin as an input:
+   pinMode(buttonPin, INPUT);
+  attachInterrupt(digitalPinToInterrupt(buttonPin), pin_ISR, RISING);
+
+}
+
+void pin_ISR() {
+  ledstate++;
+}
+
+
+
+void loop() {  
+   // read the state of the pushbutton value:
+   if(ledstate==1){
+    digitalWrite(rled, HIGH);
+   digitalWrite(bled, LOW);
+   digitalWrite(gled,LOW);
+   }
+  else if(ledstate==2){
+    digitalWrite(gled, HIGH);
+    digitalWrite(rled, LOW);
+    digitalWrite(bled, LOW);
+   }
+  else  if(ledstate==3){
+    digitalWrite(bled, HIGH);
+    digitalWrite(gled, LOW);
+    digitalWrite(rled, LOW);
+   }
+  else if(ledstate==4){
+    digitalWrite(rled, HIGH);
+    digitalWrite(gled, HIGH);
+    digitalWrite(bled, HIGH);
+   }
+  else{
+    digitalWrite(rled,LOW);
+    digitalWrite(gled,LOW);
+    digitalWrite(bled,LOW);
+  }
+  if(ledstate>=5){
+    ledstate=0;
+  }
+  
+}
